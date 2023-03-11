@@ -8,11 +8,23 @@ function App() {
   function handleChange(e) {
     setMarkdown(e.target.value);
   }
+
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (file && file.name.endsWith('.md')) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        setMarkdown(event.target.result);
+      };
+      reader.readAsText(file);
+    }
+  }
+
   return (
     <div className="app">
       <textarea value={markdown} onChange={handleChange} />
       <ReactMarkdown className="preview" children={markdown}></ReactMarkdown>
-      <div className="preview" />
+      <input type="file" onChange={handleFileChange}  />
     </div>
   );
 }
